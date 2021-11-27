@@ -258,13 +258,13 @@ void addCompany(void)
 	cout << "Enter the last date for registration :" << endl;
 	set_deadline();
 
-	void set_cgpa_cutoff(float x);
-	void setXIImarks(float x);
-	void setXmarks(float x);
+	// void set_cgpa_cutoff(float x);
+	// void setXIImarks(float x);
+	// void setXmarks(float x);
 
-	void set_backlogs_allowed(int x);
+	// void set_backlogs_allowed(int x);
 
-	void insertAllBranches(string s);
+	// void insertAllBranches(string s);
 }
 
 class user
