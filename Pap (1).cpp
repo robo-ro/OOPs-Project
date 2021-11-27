@@ -73,6 +73,7 @@ private:
 
 public:
 	// SETTER AND GETTER FUNCTIONS HERE
+
 	void set_company_name(string s);
 	void set_comany_id(string s);
 	void set_location(string s);
@@ -90,6 +91,8 @@ public:
 	void set_backlogs_allowed(int x);
 
 	void insertAllBranches(string s);
+
+	friend void addCompany(void);
 };
 
 void Company ::set_company_name(string s)
@@ -101,7 +104,6 @@ void Company ::set_company_name(string s)
 void Company ::set_comany_id(string s)
 {
 	company_id = s;
-	cout << "Record updated.." << endl;
 	cout << "Record updated.." << endl;
 }
 
@@ -135,9 +137,28 @@ void Company ::set_category(Category c)
 	cout << "Record updated.." << endl;
 }
 
-void Company ::set_deadline(Date d)
+void Company ::set_deadline()
 {
-	deadline = d;
+
+	// 	int day, month, year, hour, minute;
+
+	// deadline
+
+	cout >> "Enter day of the month(1-30)" >> endl;
+	cin >> deadline.day;
+
+	cout >> "Enter month(1-12)" >> endl;
+	cin >> deadline.month;
+
+	cout >> "Enter year (2021 / 2022)" >> endl;
+	cin >> deadline.year;
+
+	cout >> "Enter hours (0-23)" >> endl;
+	cin >> deadline.hour;
+
+	cout >> "Enter minute (0-60)" >> endl;
+	cin >> deadline.minute;
+
 	cout << "Record updated.." << endl;
 }
 
@@ -182,6 +203,68 @@ void Company ::insertAllBranches(string s)
 {
 
 	// Code ??
+}
+
+void addCompany(void)
+{
+
+	string company_name;
+	string company_id;
+	string location;
+	string deadline;
+	string industry_sector;
+	string job_profile;
+
+	OfferType offer_type;
+	Category category;
+	Date deadline;
+
+	float cgpa_cutoff = 0.00;
+	float XIImarks = 0.00;
+	float Xmarks = 0.00;
+
+	int backlogs_allowed = 0;
+
+	set<string> branches;
+
+	set_comany_id(string s);
+
+	cout << "Please enter the following details about the new company :" << endl;
+
+	cout << "Enter company name :" << endl;
+	cin >> company_name;
+	set_company_name(company_name);
+
+	cout << "Enter location(s) of the comapny:" << endl;
+	cin >> location;
+	set_location(location);
+
+	cout << "Enter industry sector :" << endl;
+	cin >> industry_sector;
+	set_industry_sector(industry_sector);
+
+	cout << "Enter job profile :" << endl;
+	cin >> job_profile;
+	set_job_profile(job_profile);
+
+	cout << "Enter offer type (P, I, P+I) :" << endl;
+	cin >> offer_type;
+	set_offer_type(offer_type);
+
+	cout << "Enter the category (Core, Spot, ADM) :" << endl;
+	cin >> category;
+	set_category(category);
+
+	cout << "Enter the last date for registration :" << endl;
+	set_deadline();
+
+	void set_cgpa_cutoff(float x);
+	void setXIImarks(float x);
+	void setXmarks(float x);
+
+	void set_backlogs_allowed(int x);
+
+	void insertAllBranches(string s);
 }
 
 class user
