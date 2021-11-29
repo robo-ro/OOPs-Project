@@ -1,3 +1,6 @@
+
+// add constructors
+
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
@@ -9,11 +12,15 @@ using namespace std;
 struct Date
 {
 	int day, month, year, hour, minute;
-	day = 1;
-	month = 1;
-	year = 2021;
-	hour = 0;
-	minute = 0;
+	Date()
+	{
+
+		day = 1;
+		month = 1;
+		year = 2021;
+		hour = 0;
+		minute = 0;
+	}
 };
 
 enum OfferType
@@ -52,6 +59,8 @@ showBranches()
 class Company
 {
 private:
+	static int comp_id_gen = 1;
+
 	string company_name;
 	string company_id;
 	string location;
@@ -63,19 +72,39 @@ private:
 	Category category;
 	Date deadline;
 
-	float cgpa_cutoff = 0.00;
-	float XIImarks = 0.00;
-	float Xmarks = 0.00;
+	float cgpa_cutoff;
+	float XIImarks;
+	float Xmarks;
 
-	int backlogs_allowed = 0;
+	int backlogs_allowed;
 
 	unordered_set<string> branches;
 
 public:
+	void Company()
+	{
+		string company_name;
+		string company_id;
+		string location;
+		string deadline;
+		string industry_sector;
+		string job_profile;
+
+		OfferType offer_type;
+		Category category;
+		Date deadline;
+
+		float cgpa_cutoff;
+		float XIImarks;
+		float Xmarks;
+
+		int backlogs_allowed;
+	}
+
 	// SETTER AND GETTER FUNCTIONS HERE
 
 	void set_company_name(string s);
-	void set_comany_id(string s);
+	void set_company_id();
 	void set_location(string s);
 	void set_industry_sector(string s);
 	void set_job_profile(string s);
@@ -101,9 +130,9 @@ void Company ::set_company_name(string s)
 	cout << "Record updated.." << endl;
 }
 
-void Company ::set_comany_id(string s)
+void Company ::set_comany_id()
 {
-	company_id = s;
+	company_id = "CID_" + to_string(comp_id_gen++);
 	cout << "Record updated.." << endl;
 }
 
@@ -225,6 +254,8 @@ void Company ::insertAllBranches()
 void addCompany(void)
 {
 
+	Company ctemp = new Company;
+
 	string company_name;
 	string company_id;
 	string location;
@@ -236,87 +267,78 @@ void addCompany(void)
 	Category category;
 	Date deadline;
 
-	float cgpa_cutoff = 0.00;
-	float XIImarks = 0.00;
-	float Xmarks = 0.00;
+	float cgpa_cutoff;
+	float XIImarks;
+	float Xmarks;
 
-	int backlogs_allowed = 0;
+	int backlogs_allowed;
 
-	set<string> branches;
+	// set<string> branches;
 
-	set_comany_id(string s);
+	ctemp.set_company_id();
+
+	cout << "Please note the company id :" << ctemp.company_id;
 
 	cout << "Please enter the following details about the new company :" << endl;
 
 	cout << "Enter company name :" << endl;
 	cin >> company_name;
-	set_company_name(company_name);
+	ctemp.set_company_name(company_name);
 
 	cout << "Enter location(s) of the comapny:" << endl;
 	cin >> location;
-	set_location(location);
+	ctemp.set_location(location);
 
 	cout << "Enter industry sector :" << endl;
 	cin >> industry_sector;
-	set_industry_sector(industry_sector);
+	ctemp.set_industry_sector(industry_sector);
 
 	cout << "Enter job profile :" << endl;
 	cin >> job_profile;
-	set_job_profile(job_profile);
+	ctemp.set_job_profile(job_profile);
 
 	cout << "Enter offer type (P, I, P+I) :" << endl;
 	cin >> offer_type;
-	set_offer_type(offer_type);
+	ctemp.set_offer_type(offer_type);
 
 	cout << "Enter the category (Core, Spot, ADM) :" << endl;
 	cin >> category;
-	set_category(category);
+	ctemp.set_category(category);
 
 	cout << "Enter the last date for registration :" << endl;
-	set_deadline();
+	ctemp.set_deadline();
 
 	cout << "Enter the minimum CGPA required (<= 10.00) :" << endl;
 	cin >> cgpa_cutoff;
-	set_cgpa_cutoff(cgpa_cutoff);
+	ctemp.set_cgpa_cutoff(cgpa_cutoff);
 
 	cout << "Enter the minimum 12th percentage required  :" << endl;
 	cin >> XIImarks;
-	set_XIImarks(XIImarks);
+	ctemp.set_XIImarks(XIImarks);
 
 	cout << "Enter the minimum 10th percentage required  :" << endl;
 	cin >> Xmarks;
-	set_Xmarks(Xmarks);
+	ctemp.set_Xmarks(Xmarks);
 
 	cout << "Enter the maximum number of backlogs acceptable :" << endl;
 	cin >> backlogs_allowed;
-	set_backlogs_allowed(backlogs_allowed);
+	ctemp.set_backlogs_allowed(backlogs_allowed);
 
 	cout << "Enter the eligible branches :" << endl;
 	insertAllBranches();
 }
 
+class user
+{
+public:
+	string name;
+	string loginId;
+	string password;
 
-
-
-
-
-
-
-
-
-
-
-// class user
-// {
-// public:
-// 	string name;
-// 	string loginId;
-// 	string password;
-
-// 	void set_Name(string s);
-// 	void set_LoginID(string s);
-// 	void set_pass(string s);
-// };
+	void set_Name(string s);
+	void set_LoginID(string s);
+	void set_pass(string s);
+};
 
 // class student : public user
 // {
