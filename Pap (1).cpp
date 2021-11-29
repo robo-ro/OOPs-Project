@@ -69,7 +69,7 @@ private:
 
 	int backlogs_allowed = 0;
 
-	set<string> branches;
+	unordered_set<string> branches;
 
 public:
 	// SETTER AND GETTER FUNCTIONS HERE
@@ -199,10 +199,27 @@ void Company ::set_backlogs_allowed(int x)
 	backlogs_allowed = x;
 }
 
-void Company ::insertAllBranches(string s)
+void Company ::insertAllBranches()
 {
 
-	// Code ??
+	string branches[10] = { "CSE",
+							"CCE",
+							"IT",
+							"ECE",
+							"EEE",
+							"E&I",
+							"AUTO",
+							"MECH" }
+
+	int digit = -1;
+
+	while (digit != 0)
+	{
+		cout << "Please enter the serial number corresponding to the eligible branch, enter 0 to exit." << endl;
+		showBranches();
+		cin >> digit;
+		branches->insert(branches[digit - 1]);
+	}
 }
 
 void addCompany(void)
@@ -258,230 +275,252 @@ void addCompany(void)
 	cout << "Enter the last date for registration :" << endl;
 	set_deadline();
 
-	// void set_cgpa_cutoff(float x);
-	// void setXIImarks(float x);
-	// void setXmarks(float x);
+	cout << "Enter the minimum CGPA required (<= 10.00) :" << endl;
+	cin >> cgpa_cutoff;
+	set_cgpa_cutoff(cgpa_cutoff);
 
-	// void set_backlogs_allowed(int x);
+	cout << "Enter the minimum 12th percentage required  :" << endl;
+	cin >> XIImarks;
+	set_XIImarks(XIImarks);
 
-	// void insertAllBranches(string s);
+	cout << "Enter the minimum 10th percentage required  :" << endl;
+	cin >> Xmarks;
+	set_Xmarks(Xmarks);
+
+	cout << "Enter the maximum number of backlogs acceptable :" << endl;
+	cin >> backlogs_allowed;
+	set_backlogs_allowed(backlogs_allowed);
+
+	cout << "Enter the eligible branches :" << endl;
+	insertAllBranches();
 }
 
-class user
-{
-public:
-	string name;
-	string loginId;
-	string password;
 
-	void set_Name(string s);
-	void set_LoginID(string s);
-	void set_pass(string s);
-};
 
-class student : public user
-{
-public:
-	string reg_no;
-	float cgpa;
-	float XIImarks;
-	float Xmarks;
-	string branch;
-};
 
-class college_Instructor
-{
 
-private:
-	string userID;
-	string instr_Password;
 
-public:
-	void login();
 
-	void add_Company();
 
-	void remove_Company();
 
-	void update_Company();
-};
 
-void college_Instructor ::login()
-{
-Start:
 
-	while (attempts < 3)
-	{
-		cout << "\nEnter your Instructor ID : ";
-		cin >> userID;
-		cout << "Enter the Instructor Password : ";
-		cin >> instr_Password;
 
-		if (userID == "Admin" && instr_Password == "a1b2c3d4e5")
-		{
-			cout << "\nWelcome Instructor!\n";
+// class user
+// {
+// public:
+// 	string name;
+// 	string loginId;
+// 	string password;
 
-			cout << "\nAccessible Operations: \n\n1. Add Company\n"
-				 << "2. Remove Company \n3. Update Company\n"
-				 << "4. Exit \n\nEnter option: ";
-			cin >> ch;
+// 	void set_Name(string s);
+// 	void set_LoginID(string s);
+// 	void set_pass(string s);
+// };
 
-			while (ch != 4)
-			{
-				if (ch == 1)
-				{
-					add_Company();
-				}
-				else if (ch == 2)
-				{
-					remove_Company();
-				}
-				else if (ch == 3)
-				{
-					update_Company();
-				}
-			}
-			break;
-		}
-		else
-		{
-			cout << "\nInvalid login attempt. Please try again.\n";
-			attempts++;
-			goto Start;
-		}
-	}
+// class student : public user
+// {
+// public:
+// 	string reg_no;
+// 	float cgpa;
+// 	float XIImarks;
+// 	float Xmarks;
+// 	string branch;
+// };
 
-	if (attempts == 3)
-	{
-		cout << "\nToo many login attempts! The program will now terminate.\n";
-	}
-}
+// class college_Instructor
+// {
 
-void college_Instructor ::add_Company()
-{
-	string Job_description, Work_location, Due_date, Field;
-	int Max_backlogs;
-	float CGPA, Min_12th, Min_10th;
-	char Offer_type;
+// private:
+// 	string userID;
+// 	string instr_Password;
 
-	string empty = "00";
+// public:
+// 	void login();
 
-	ifstream f("Companies.txt");
-	string line;
+// 	void add_Company();
 
-	for (int i = 0; std::getline(f, line); ++i)
-	{
-		count_n++;
-	}
+// 	void remove_Company();
 
-	cout << "Enter the number of Companies:";
-	cin >> n;
+// 	void update_Company();
+// };
 
-	count_n = count_n + n;
+// void college_Instructor ::login()
+// {
+// Start:
 
-	for (i = 0; i < n; i++)
-	{
-		ofstream outfile;
-		outfile.open("Companies.txt", ios::app);
-		// The entire data of a single company is stored line-by-line.
+// 	while (attempts < 3)
+// 	{
+// 		cout << "\nEnter your Instructor ID : ";
+// 		cin >> userID;
+// 		cout << "Enter the Instructor Password : ";
+// 		cin >> instr_Password;
 
-		cout << "Enter the Name of the Company: ";
-		cin >> Name;
-		outfile << Name << "\t";
+// 		if (userID == "Admin" && instr_Password == "a1b2c3d4e5")
+// 		{
+// 			cout << "\nWelcome Instructor!\n";
 
-		cout << "Enter the Job description: ";
-		cin >> Job_description;
+// 			cout << "\nAccessible Operations: \n\n1. Add Company\n"
+// 				 << "2. Remove Company \n3. Update Company\n"
+// 				 << "4. Exit \n\nEnter option: ";
+// 			cin >> ch;
 
-		// while (len < 5)
-		//{
-		// data[len] = ' ';
-		// len = len + 1;
-		//}
-		outfile << Job_description << "\t";
+// 			while (ch != 4)
+// 			{
+// 				if (ch == 1)
+// 				{
+// 					add_Company();
+// 				}
+// 				else if (ch == 2)
+// 				{
+// 					remove_Company();
+// 				}
+// 				else if (ch == 3)
+// 				{
+// 					update_Company();
+// 				}
+// 			}
+// 			break;
+// 		}
+// 		else
+// 		{
+// 			cout << "\nInvalid login attempt. Please try again.\n";
+// 			attempts++;
+// 			goto Start;
+// 		}
+// 	}
 
-		cout << "Enter the Work Location: ";
-		cin >> Work_location;
+// 	if (attempts == 3)
+// 	{
+// 		cout << "\nToo many login attempts! The program will now terminate.\n";
+// 	}
+// }
 
-		outfile << Work_location << "\t";
+// void college_Instructor ::add_Company()
+// {
+// 	string Job_description, Work_location, Due_date, Field;
+// 	int Max_backlogs;
+// 	float CGPA, Min_12th, Min_10th;
+// 	char Offer_type;
 
-		cout << "Enter the Last Date to Apply: ";
-		cin >> Due_date;
+// 	string empty = "00";
 
-		outfile << Due_date << "\t";
+// 	ifstream f("Companies.txt");
+// 	string line;
 
-		cout << "Enter the CGPA Requirements: ";
-		cin >> CGPA;
+// 	for (int i = 0; std::getline(f, line); ++i)
+// 	{
+// 		count_n++;
+// 	}
 
-		outfile << CGPA << "\t";
+// 	cout << "Enter the number of Companies:";
+// 	cin >> n;
 
-		cout << "Enter the 12th Marks Requirements: ";
-		cin >> Min_12th;
+// 	count_n = count_n + n;
 
-		outfile << Min_12th << "\t";
+// 	for (i = 0; i < n; i++)
+// 	{
+// 		ofstream outfile;
+// 		outfile.open("Companies.txt", ios::app);
+// 		// The entire data of a single company is stored line-by-line.
 
-		cout << "Enter the 10th Marks Requirements: ";
-		cin >> Min_10th;
+// 		cout << "Enter the Name of the Company: ";
+// 		cin >> Name;
+// 		outfile << Name << "\t";
 
-		outfile << Min_10th << "\t";
+// 		cout << "Enter the Job description: ";
+// 		cin >> Job_description;
 
-		cout << "Enter the total number of acceptable Backlogs: ";
-		cin >> Max_backlogs;
+// 		// while (len < 5)
+// 		//{
+// 		// data[len] = ' ';
+// 		// len = len + 1;
+// 		//}
+// 		outfile << Job_description << "\t";
 
-		outfile << Max_backlogs << "\t";
+// 		cout << "Enter the Work Location: ";
+// 		cin >> Work_location;
 
-		cout << "Enter the Offer type: ";
-		cin >> Offer_type;
+// 		outfile << Work_location << "\t";
 
-		outfile << Offer_type << "\t";
+// 		cout << "Enter the Last Date to Apply: ";
+// 		cin >> Due_date;
 
-		cout << "Enter the Field of the Job: ";
-		cin >> Field;
+// 		outfile << Due_date << "\t";
 
-		outfile << Field << endl;
-	}
+// 		cout << "Enter the CGPA Requirements: ";
+// 		cin >> CGPA;
 
-	login();
-}
+// 		outfile << CGPA << "\t";
 
-void college_Instructor ::remove_Company()
-{
-	cout << "Enter the details:";
-}
+// 		cout << "Enter the 12th Marks Requirements: ";
+// 		cin >> Min_12th;
 
-void college_Instructor ::update_Company()
-{
+// 		outfile << Min_12th << "\t";
 
-	cout << "Enter the details:";
-}
+// 		cout << "Enter the 10th Marks Requirements: ";
+// 		cin >> Min_10th;
 
-cout << "\n-----------------------------------Welcome to the Student Placement Assitance Portal!-----------------------------------\n";
-Start : cout << "\nPlease choose your designated Account: \n\n1. Student\n"
-			 << "2. Company \n3. College Instructor \n4. Exit \n\nEnter your Choice: ";
-cin >> ch;
+// 		outfile << Min_10th << "\t";
 
-while (attempts < 3 && ch != 4)
-{
-	if (ch == 1)
-	{
-		// Student S;
-	}
-	else if (ch == 2)
-	{
-		// Company C;
-	}
-	else if (ch == 3)
-	{
-		college_Instructor I;
-		I.login();
-	}
-	else
-	{
-		cout << "\nInvalid Choice. Please choose again.\n";
-		attempts++;
-		goto Start;
-	}
-}
-if (attempts == 3)
-{
-	cout << "\nPlease reload the page and try again! Thank you.\n";
-}
+// 		cout << "Enter the total number of acceptable Backlogs: ";
+// 		cin >> Max_backlogs;
+
+// 		outfile << Max_backlogs << "\t";
+
+// 		cout << "Enter the Offer type: ";
+// 		cin >> Offer_type;
+
+// 		outfile << Offer_type << "\t";
+
+// 		cout << "Enter the Field of the Job: ";
+// 		cin >> Field;
+
+// 		outfile << Field << endl;
+// 	}
+
+// 	login();
+// }
+
+// void college_Instructor ::remove_Company()
+// {
+// 	cout << "Enter the details:";
+// }
+
+// void college_Instructor ::update_Company()
+// {
+
+// 	cout << "Enter the details:";
+// }
+
+// cout << "\n-----------------------------------Welcome to the Student Placement Assitance Portal!-----------------------------------\n";
+// Start : cout << "\nPlease choose your designated Account: \n\n1. Student\n"
+// 			 << "2. Company \n3. College Instructor \n4. Exit \n\nEnter your Choice: ";
+// cin >> ch;
+
+// while (attempts < 3 && ch != 4)
+// {
+// 	if (ch == 1)
+// 	{
+// 		// Student S;
+// 	}
+// 	else if (ch == 2)
+// 	{
+// 		// Company C;
+// 	}
+// 	else if (ch == 3)
+// 	{
+// 		college_Instructor I;
+// 		I.login();
+// 	}
+// 	else
+// 	{
+// 		cout << "\nInvalid Choice. Please choose again.\n";
+// 		attempts++;
+// 		goto Start;
+// 	}
+// }
+// if (attempts == 3)
+// {
+// 	cout << "\nPlease reload the page and try again! Thank you.\n";
+// }
