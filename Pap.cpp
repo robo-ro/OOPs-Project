@@ -243,6 +243,8 @@ void Company ::insertAllBranches()
 
 map<string, Company> companies;
 
+// vector<Company*> ccc;
+
 void addCompany()
 {
     static int comp_id_gen = 1;
@@ -322,6 +324,8 @@ void addCompany()
 
 
 	companies[ctemp.company_id] = ctemp;
+
+    // ccc.push_back(ctemp);
 }
 
 class user
