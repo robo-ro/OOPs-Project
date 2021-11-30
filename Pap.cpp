@@ -48,7 +48,7 @@ void showBranches()
 
     for (int i = 0; i < 10; i++)
     {
-        cout << i + '1' << ". " << branches[i] << endl;
+        cout << to_string(i+1) << ". " << branches[i] << endl;
     }
 }
 
@@ -120,7 +120,7 @@ void Company ::set_company_name(string s)
     cout << "Record updated.." << endl;
 }
 
-void Company ::set_comany_id(int comp_id_gen)
+void Company ::set_company_id(int comp_id_gen)
 {
     company_id = "CID_" + to_string(comp_id_gen);
 
@@ -247,7 +247,7 @@ void addCompany()
 {
     static int comp_id_gen = 1;
 
-    Company ctemp = new Company;
+    Company ctemp ;
 
     string company_name;
     string company_id;
@@ -336,9 +336,9 @@ public:
     void set_LoginID(string s);
 };
 
-// class College_Admin : public user{
+class College_Admin : public user{
 
-// }
+};
 
 int main()
 {

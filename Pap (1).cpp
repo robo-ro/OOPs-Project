@@ -26,7 +26,7 @@ enum OfferType
 {
 	P,
 	I,
-	P + I
+	PI
 };
 
 enum Category
@@ -34,10 +34,9 @@ enum Category
 	Core,
 	Spot,
 	ADM
-}
+};
 
-void
-showBranches()
+void showBranches()
 {
 	cout << "All the branches are listed below" << endl;
 	string branches[10] = { "CSE",
@@ -47,7 +46,7 @@ showBranches()
 							"EEE",
 							"E&I",
 							"AUTO",
-							"MECH" }
+							"MECH" };
 
 	for (int i = 0; i < 10; i++)
 	{
