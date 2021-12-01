@@ -6,6 +6,10 @@
 
 using namespace std;
 
+void addStudentData();
+void existingStudentData();
+void printStudentData();
+
 struct Date
 {
     int day, month, year, hour, minute;
@@ -48,7 +52,7 @@ void showBranches()
 
     for (int i = 0; i < 10; i++)
     {
-        cout << to_string(i+1) << ". " << branches[i] << endl;
+        cout << to_string(i + 1) << ". " << branches[i] << endl;
     }
 }
 
@@ -80,7 +84,7 @@ public:
         company_name = "";
         company_id = "";
         location = "";
-  
+
         industry_sector = "";
         job_profile = "";
 
@@ -157,28 +161,29 @@ void Company ::set_category(string c)
     cout << "Record updated.." << endl;
 }
 
-void Company ::set_deadline(Date deadline){
-    
+void Company ::set_deadline(Date deadline)
+{
+
     // 	int day, month, year, hour, minute;
 
-	// deadline
+    // deadline
 
-	cout << "Enter day of the month(1-30)" << endl;
-	cin >> deadline.day;
+    cout << "Enter day of the month(1-30)" << endl;
+    cin >> deadline.day;
 
-	cout << "Enter month(1-12)" << endl;
-	cin >> deadline.month;
+    cout << "Enter month(1-12)" << endl;
+    cin >> deadline.month;
 
-	cout << "Enter year (2021 / 2022)" << endl;
-	cin >> deadline.year;
+    cout << "Enter year (2021 / 2022)" << endl;
+    cin >> deadline.year;
 
-	cout << "Enter hours (0-23)" << endl;
-	cin >> deadline.hour;
+    cout << "Enter hours (0-23)" << endl;
+    cin >> deadline.hour;
 
-	cout << "Enter minute (0-60)" << endl;
-	cin >> deadline.minute;
+    cout << "Enter minute (0-60)" << endl;
+    cin >> deadline.minute;
 
-	cout << "Record updated.." << endl;
+    cout << "Record updated.." << endl;
 }
 
 void Company ::set_cgpa_cutoff(float x)
@@ -221,14 +226,14 @@ void Company ::set_backlogs_allowed(int x)
 void Company ::insertAllBranches()
 {
 
-    string branches[10] = { "CSE",
-                            "CCE",
-                            "IT",
-                            "ECE",
-                            "EEE",
-                            "E&I",
-                            "AUTO",
-                            "MECH" };
+    string branches[10] = {"CSE",
+                           "CCE",
+                           "IT",
+                           "ECE",
+                           "EEE",
+                           "E&I",
+                           "AUTO",
+                           "MECH"};
 
     int digit = -1;
 
@@ -241,7 +246,7 @@ void Company ::insertAllBranches()
     }
 }
 
-map<string, Company> companies;
+unordered_map<string, Company> companies;
 
 // vector<Company*> ccc;
 
@@ -249,7 +254,7 @@ void addCompany()
 {
     static int comp_id_gen = 1;
 
-    Company ctemp ;
+    Company ctemp;
 
     string company_name;
     string company_id;
@@ -304,51 +309,229 @@ void addCompany()
     ctemp.set_deadline(deadline);
 
     cout << "Enter the minimum CGPA required (<= 10.00) :" << endl;
-	cin >> cgpa_cutoff;
-	ctemp.set_cgpa_cutoff(cgpa_cutoff);
+    cin >> cgpa_cutoff;
+    ctemp.set_cgpa_cutoff(cgpa_cutoff);
 
-	cout << "Enter the minimum 12th percentage required  :" << endl;
-	cin >> XIImarks;
-	ctemp.setXIImarks(XIImarks);
+    cout << "Enter the minimum 12th percentage required  :" << endl;
+    cin >> XIImarks;
+    ctemp.setXIImarks(XIImarks);
 
-	cout << "Enter the minimum 10th percentage required  :" << endl;
-	cin >> Xmarks;
-	ctemp.setXmarks(Xmarks);
+    cout << "Enter the minimum 10th percentage required  :" << endl;
+    cin >> Xmarks;
+    ctemp.setXmarks(Xmarks);
 
-	cout << "Enter the maximum number of backlogs acceptable :" << endl;
-	cin >> backlogs_allowed;
-	ctemp.set_backlogs_allowed(backlogs_allowed);
+    cout << "Enter the maximum number of backlogs acceptable :" << endl;
+    cin >> backlogs_allowed;
+    ctemp.set_backlogs_allowed(backlogs_allowed);
 
-	cout << "Enter the eligible branches :" << endl;
-	ctemp.insertAllBranches();
+    cout << "Enter the eligible branches :" << endl;
+    ctemp.insertAllBranches();
 
-
-	companies[ctemp.company_id] = ctemp;
+    companies[ctemp.company_id] = ctemp;
 
     // ccc.push_back(ctemp);
 }
 
+void removeCompany(string cid){
+    companies.erase(cid);
+}
+
 class user
 {
-
-private:
-    string name;
-    string loginId;
-
 public:
+    string name;
+    // string loginId;
+    // string password;
+
     void set_Name(string s);
-    void set_LoginID(string s);
+    // void set_LoginID(string s);
+    // void set_pass(string s);
 };
 
-class College_Admin : public user{
+// class user
+// {
 
+// private:
+//     string name;
+//     string loginId;
+
+// public:
+//     void set_Name(string s);
+//     void set_LoginID(string s);
+// };
+
+class College_Admin : public user
+{
 };
 
-int main()
+class student : private user
+{
+private:
+    string reg_no;
+    float cgpa;
+    float XIImarks;
+    float Xmarks;
+    string branch;
+
+    // setter and getter functions
+public:
+    student(string funName, string regNo, float xiimark, float xmark, string Branches, float cgpas)
+    {
+        name = funName;
+        reg_no = regNo;
+        cgpa = cgpas;
+        XIImarks = xiimark;
+        Xmarks = xmark;
+        branch = Branches;
+    }
+
+    friend ostream &operator<<(ostream &out, const student *s);
+};
+
+ostream &operator<<(ostream &out, const student *s)
 {
 
-    addCompany();
+    out << "Welcome " << s->name << " Reg No. " << s->reg_no << " with score in class X:" << s->Xmarks << " ,class XII marks:" << s->XIImarks << " ,CGPA of: " << s->cgpa << " and branch is " << s->branch << endl;
+    return out;
+}
+
+vector<student *> stds;
+map<string, student *> studs;
+
+int mainMenu()
+{
+    cout << "Welcome to the Placement assistance portal" << endl;
+    cout << "1. Student Login" << endl;
+    cout << "2. College admin login" << endl;
+    cout << "3. Exit portal" << endl;
+    int option;
+    cin >> option;
+    return option;
+}
+
+int studentFunction()
+{
+    cout << "1. New user registration" << endl;
+    cout << "2. Existing user" << endl;
+    cout << "3. Go back a menu" << endl;
+    int Oi;
+    cin >> Oi;
+    return Oi;
+}
+
+int collegeAdminFunction()
+{
+    cout << "1. Add Company" << endl;
+    cout << "2. Remove Company" << endl;
+    cout << "3.Go back a menu" << endl;
+    int Oi;
+    cin >> Oi;
+    return Oi;
+}
+
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+
+int main(int argc, char **argv)
+{
+
+    while (1)
+    {
+        int op = mainMenu();
+        if (op == 1)
+        {
+            int Oi = studentFunction();
+            if (Oi == 1)
+            {
+                cout << "Call new user function" << endl;
+                addStudentData();
+                printStudentData();
+            } // Insert new user function here
+            else if (Oi == 2)
+            {
+                cout << "Call Existing user function" << endl;
+                existingStudentData();
+            } // Insert existing user function here
+            else
+                continue;
+        }
+        else if (op == 2)
+        {
+            int Oi = collegeAdminFunction();
+            if (Oi == 1)
+            {
+
+              //  cout << "Call add company function" << endl; // Insert add comp function here
+                addCompany();
+            }
+
+            else if (Oi == 2){
+
+
+                // cout << "Call Remove company function" << endl; // Insert remove company function here
+                string cid;
+                cout <<  "Please enter the company id :" << endl;
+                cin >> cid;
+                removeCompany(cid);
+                cout <<  "The company with company id : " << cid << " is deleted " << endl;
+
+            }
+            else
+                continue;
+        }
+        else
+        {
+            cout << "Thank you for using the Portal" << endl;
+            break;
+        }
+    }
+
+    printStudentData();
 
     return 0;
 }
 
+void addStudentData()
+{
+    cout << "Enter your name: ";
+    string name, reg_no, branch;
+    float XIImarks, Xmarks, cgpa;
+    // getline(cin,name);
+    cin >> name;
+    cout << "Enter your Registration Number: ";
+    // string reg_no;
+    cin >> reg_no;
+    cout << "Enter your Class X marks: ";
+    cin >> Xmarks;
+    cout << "Enter your class XII marks: ";
+    cin >> XIImarks;
+    cout << "Enter your CGPA: ";
+    cin >> cgpa;
+    // string branch;
+    cout << "Enter your branch: ";
+    cin >> branch;
+
+    // cout<<"Welcome "<<name<<" Reg No. "<<reg_no<<" with score in class X:"<<Xmarks<<" ,class XII marks:"<<XIImarks<<" ,CGPA of: "<<cgpa<<" and branch is "<<branch<<endl;
+
+    student *s1 = new student(name, reg_no, XIImarks, Xmarks, branch, cgpa);
+    // cout<<s1<<endl;
+    stds.push_back(s1);
+    studs[reg_no] = s1;
+}
+
+void existingStudentData()
+{
+    cout << "Please enter your registration number: ";
+    string reg_no;
+    cin >> reg_no;
+    cout << "Looking for your records..." << endl;
+}
+
+void printStudentData()
+{
+    for (int i = 0; i < stds.size(); i++)
+    {
+        cout << stds.at(i) << endl;
+    }
+
+    // cout<<stds[0]->reg_no<<stds[0]->cgpa<<endl;
+}
