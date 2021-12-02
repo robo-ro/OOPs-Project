@@ -393,7 +393,13 @@ void addCompany()
 
 void removeCompany(string cid)
 {
-    companies.erase(cid);
+    if (companies.find(cid) != companies.end())
+    {
+        companies.erase(cid);
+    }
+    else{
+        cout<< "No company with the entered Company id present. 0 companies removed! " << endl;
+    }
 }
 
 class user
@@ -477,7 +483,51 @@ int collegeAdminFunction()
     return Oi;
 }
 
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+void addStudentData()
+{
+    cout << "Enter your name: ";
+    string name, reg_no, branch;
+    float XIImarks, Xmarks, cgpa;
+    // getline(cin,name);
+    cin >> name;
+    cout << "Enter your Registration Number: ";
+    // string reg_no;
+    cin >> reg_no;
+    cout << "Enter your Class X marks: ";
+    cin >> Xmarks;
+    cout << "Enter your class XII marks: ";
+    cin >> XIImarks;
+    cout << "Enter your CGPA: ";
+    cin >> cgpa;
+    // string branch;
+    cout << "Enter your branch: ";
+    cin >> branch;
+
+    // cout<<"Welcome "<<name<<" Reg No. "<<reg_no<<" with score in class X:"<<Xmarks<<" ,class XII marks:"<<XIImarks<<" ,CGPA of: "<<cgpa<<" and branch is "<<branch<<endl;
+
+    student *s1 = new student(name, reg_no, XIImarks, Xmarks, branch, cgpa);
+    // cout<<s1<<endl;
+    stds.push_back(s1);
+    studs[reg_no] = s1;
+}
+
+void existingStudentData()
+{
+    cout << "Please enter your registration number: ";
+    string reg_no;
+    cin >> reg_no;
+    cout << "Looking for your records..." << endl;
+}
+
+void printStudentData()
+{
+    for (int i = 0; i < stds.size(); i++)
+    {
+        cout << stds.at(i) << endl;
+    }
+
+    // cout<<stds[0]->reg_no<<stds[0]->cgpa<<endl;
+}
 
 int main(int argc, char **argv)
 {
@@ -535,50 +585,4 @@ int main(int argc, char **argv)
     printStudentData();
 
     return 0;
-}
-
-void addStudentData()
-{
-    cout << "Enter your name: ";
-    string name, reg_no, branch;
-    float XIImarks, Xmarks, cgpa;
-    // getline(cin,name);
-    cin >> name;
-    cout << "Enter your Registration Number: ";
-    // string reg_no;
-    cin >> reg_no;
-    cout << "Enter your Class X marks: ";
-    cin >> Xmarks;
-    cout << "Enter your class XII marks: ";
-    cin >> XIImarks;
-    cout << "Enter your CGPA: ";
-    cin >> cgpa;
-    // string branch;
-    cout << "Enter your branch: ";
-    cin >> branch;
-
-    // cout<<"Welcome "<<name<<" Reg No. "<<reg_no<<" with score in class X:"<<Xmarks<<" ,class XII marks:"<<XIImarks<<" ,CGPA of: "<<cgpa<<" and branch is "<<branch<<endl;
-
-    student *s1 = new student(name, reg_no, XIImarks, Xmarks, branch, cgpa);
-    // cout<<s1<<endl;
-    stds.push_back(s1);
-    studs[reg_no] = s1;
-}
-
-void existingStudentData()
-{
-    cout << "Please enter your registration number: ";
-    string reg_no;
-    cin >> reg_no;
-    cout << "Looking for your records..." << endl;
-}
-
-void printStudentData()
-{
-    for (int i = 0; i < stds.size(); i++)
-    {
-        cout << stds.at(i) << endl;
-    }
-
-    // cout<<stds[0]->reg_no<<stds[0]->cgpa<<endl;
 }
