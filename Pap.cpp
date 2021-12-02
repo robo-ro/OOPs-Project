@@ -59,7 +59,7 @@ private:
 
     string offer_type;
     string category;
-    Date deadline;
+    Date *deadline;
 
     float cgpa_cutoff;
     float XIImarks;
@@ -86,15 +86,15 @@ public:
         int backlogs_allowed = 0;
     }
 
-    Company(string company_name,
-            string company_id,
+    Company(string company_id,
+            string company_name,
             string location,
             string industry_sector,
             string job_profile,
 
             string offer_type,
             string category,
-            Date deadline,
+            Date *deadline,
 
             float cgpa_cutoff,
             float XIImarks,
@@ -107,7 +107,7 @@ public:
         this->company_name = company_name;
         this->company_id = company_id;
         this->location = location;
-        this->industry_sector;
+        this->industry_sector = industry_sector;
         this->job_profile = job_profile;
 
         this->offer_type = offer_type;
@@ -147,6 +147,7 @@ public:
     void insertAllBranches();
 
     friend void printCompany(string company_id);
+    friend void removeCompany(string company_id);
     friend void addCompany(void);
 };
 
@@ -276,7 +277,7 @@ void Company ::insertAllBranches()
     }
 }
 
-unordered_map<string, Company *> companies;
+// unordered_map<string, Company *> companies;
 
 vector<Company *> com;
 
@@ -286,14 +287,14 @@ void printCompany(string cid)
     {
         if (com[i]->company_id == cid)
         {
-
+            cout << "Company id :" << com[i]->company_id << endl;
             cout << "Company name :" << com[i]->company_name << endl;
             cout << "Company location :" << com[i]->location << endl;
             cout << "Company industry sector :" << com[i]->industry_sector << endl;
             cout << "Job profile :" << com[i]->job_profile << endl;
             cout << "Offer type :" << com[i]->offer_type << endl;
             cout << "Category :" << com[i]->category << endl;
-            cout << "Deadline :" << com[i]->deadline.day << " / " << com[i]->deadline.month << " / " << com[i]->deadline.year << endl;
+            // cout << "Deadline :" << to_string(com[i]->deadline->day) << " / " << to_string(com[i]->deadline->month) << " / " << to_string(com[i]->deadline->year) << endl;
             cout << "CGPA cuttoff :" << com[i]->cgpa_cutoff << endl;
             cout << "Minimum Xth marks required :" << com[i]->Xmarks << endl;
             cout << "Minimum XIIth marks required :" << com[i]->XIImarks << endl;
@@ -310,7 +311,7 @@ void printCompany(string cid)
 
 void addCompany()
 {
-    static int comp_id_gen = 1;
+    static int comp_id_gen = 10;
 
     Company *ctemp = new Company();
 
@@ -385,20 +386,31 @@ void addCompany()
     cout << "Enter the eligible branches :" << endl;
     ctemp->insertAllBranches();
 
-    companies[ctemp->company_id] = ctemp;
+    // companies[ctemp->company_id] = ctemp;
     com.push_back(ctemp);
 
     printCompany(ctemp->company_id);
 }
 
 void removeCompany(string cid)
+
 {
-    if (companies.find(cid) != companies.end())
+
+    int flag = 0;
+
+    for (int i = 0; i < com.size(); i++)
     {
-        companies.erase(cid);
+        if (com[i]->company_id == cid)
+        {
+            com.erase(com.begin() + i);
+            cout << "The company with company id : " << cid << " is deleted " << endl;
+            flag = 1;
+        }
     }
-    else{
-        cout<< "No company with the entered Company id present. 0 companies removed! " << endl;
+
+    if (flag == 0)
+    {
+        cout << "No company with the entered Company id present. 0 companies removed! " << endl;
     }
 }
 
@@ -532,6 +544,18 @@ void printStudentData()
 int main(int argc, char **argv)
 {
 
+    Date *dd = new Date(12, 12, 2021);
+    Company *c1 = new Company("CID_1", "Oyo", "Bangalore", "IT", "Software Dveeloper", "P+I", "Spot", dd, 6.0, 60, 8.0, 0, {"CSE", "CCE", "IT", "ECE"});
+    Company *c2 = new Company("CID_2", "Amazon", "Gurgaon", "IT", "Software Dveeloper", "P", "Spot", dd, 7.0, 65, 7.0, 0, {"CSE", "CCE", "IT"});
+    Company *c3 = new Company("CID_3", "HP", "Bangalore, Pune", "IT", "Software Dveeloper", "I", "Core", dd, 5.0, 70, 7.0, 0, {"CSE", "CCE", "IT", "ECE","EEE","E&I"});
+    Company *c4 = new Company("CID_4", "Infosys", "Bangalore, Mumbai", "IT", "Software Analyst", "P+I", "ADM", dd, 6.5, 60, 4.0, 0, {"CSE", "CCE", "IT", "ECE","EEE","E&I","AUTO","MECH"});
+    com.push_back(c1);
+    com.push_back(c2);
+    com.push_back(c3);
+    com.push_back(c4);
+
+    // printCompany("CID_1");
+
     while (1)
     {
         int op = mainMenu();
@@ -569,8 +593,7 @@ int main(int argc, char **argv)
                 string cid;
                 cout << "Please enter the company id :" << endl;
                 cin >> cid;
-                // removeCompany(cid);
-                cout << "The company with company id : " << cid << " is deleted " << endl;
+                removeCompany(cid);
             }
             else
                 continue;
