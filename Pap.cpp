@@ -2,6 +2,7 @@
 #include <fstream>
 #include <stdio.h>
 #include <string.h>
+#include <ctime>
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -28,6 +29,67 @@ struct Date
         year = yy;
     }
 };
+
+const int MAX_VALID_YR = 9999;
+const int MIN_VALID_YR = 2021;
+
+
+// Returns true if
+// given year is valid.
+
+bool isLeap(int year)
+{
+    // Return true if year
+    // is a multiple pf 4 and
+    // not multiple of 100.
+    // OR year is multiple of 400.
+    return (((year % 4 == 0) &&
+             (year % 100 != 0)) ||
+            (year % 400 == 0));
+}
+
+
+// Returns true if given
+// year is valid or not.
+
+bool isValidDate(int d, int m, int y)
+{
+
+    // If year, month and day
+    // are not in given range
+
+    if (y > MAX_VALID_YR ||
+        y < MIN_VALID_YR)
+        return false;
+    if (m < 1 || m > 12)
+        return false;
+    if (d < 1 || d > 31)
+        return false;
+
+
+    // Handle February month
+    // with leap year
+
+    if (m == 2)
+    {
+        if (isLeap(y))
+            return (d <= 29);
+        else
+            return (d <= 28);
+    }
+
+
+    // Months of April, June,
+    // Sept and Nov must have
+    // number of days less than
+    // or equal to 30.
+    
+    if (m == 4 || m == 6 ||
+        m == 9 || m == 11)
+        return (d <= 30);
+
+    return true;
+}
 
 void showBranches()
 {
@@ -196,15 +258,41 @@ void Company ::set_category(string c)
 
 void Company ::set_deadline(Date deadline)
 {
+    int dd, mm, yy;
 
-    cout << "Enter day of the month(1-30)" << endl;
-    cin >> deadline.day;
+    int flag = 0;
 
-    cout << "Enter month(1-12)" << endl;
-    cin >> deadline.month;
+    while (1)
+    {
+        cout << "Enter day of the month(1-30)" << endl;
+        cin >> dd;
 
-    cout << "Enter year (2021 / 2022)" << endl;
-    cin >> deadline.year;
+        cout << "Enter month(1-12)" << endl;
+        cin >> mm;
+
+        cout << "Enter year (2021 / 2022)" << endl;
+        cin >> yy;
+
+        try
+        {
+            if (isValidDate(dd, mm, yy) == false)
+            {
+                throw dd;
+                flag = 1;
+            }
+            else
+            {
+                break;
+            }
+        }
+        catch (int dd)
+        {
+            cout << "The date is invalid ! Please enter a valid deadline" << endl;
+        }
+    }
+    deadline.day = dd;
+    deadline.month = mm;
+    deadline.year = yy;
 
     cout << "Record updated.." << endl;
 }
@@ -547,8 +635,8 @@ int main(int argc, char **argv)
     Date *dd = new Date(12, 12, 2021);
     Company *c1 = new Company("CID_1", "Oyo", "Bangalore", "IT", "Software Dveeloper", "P+I", "Spot", dd, 6.0, 60, 8.0, 0, {"CSE", "CCE", "IT", "ECE"});
     Company *c2 = new Company("CID_2", "Amazon", "Gurgaon", "IT", "Software Dveeloper", "P", "Spot", dd, 7.0, 65, 7.0, 0, {"CSE", "CCE", "IT"});
-    Company *c3 = new Company("CID_3", "HP", "Bangalore, Pune", "IT", "Software Dveeloper", "I", "Core", dd, 5.0, 70, 7.0, 0, {"CSE", "CCE", "IT", "ECE","EEE","E&I"});
-    Company *c4 = new Company("CID_4", "Infosys", "Bangalore, Mumbai", "IT", "Software Analyst", "P+I", "ADM", dd, 6.5, 60, 4.0, 0, {"CSE", "CCE", "IT", "ECE","EEE","E&I","AUTO","MECH"});
+    Company *c3 = new Company("CID_3", "HP", "Bangalore, Pune", "IT", "Software Dveeloper", "I", "Core", dd, 5.0, 70, 7.0, 0, {"CSE", "CCE", "IT", "ECE", "EEE", "E&I"});
+    Company *c4 = new Company("CID_4", "Infosys", "Bangalore, Mumbai", "IT", "Software Analyst", "P+I", "ADM", dd, 6.5, 60, 4.0, 0, {"CSE", "CCE", "IT", "ECE", "EEE", "E&I", "AUTO", "MECH"});
     com.push_back(c1);
     com.push_back(c2);
     com.push_back(c3);
