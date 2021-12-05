@@ -550,12 +550,28 @@ class user
 {
 public:
     string name;
+
     // string loginId;
     // string password;
 
     void set_Name(string s);
     // void set_LoginID(string s);
     // void set_pass(string s);
+};
+
+set<string> adminIds;
+
+class college_admin : private user
+{
+private:
+    string admin_id;
+
+public:
+    void set_admin_id(string admin_id)
+    {
+        this->admin_id = admin_id;
+        adminIds.insert(admin_id);
+    }
 };
 
 class student : private user
@@ -634,7 +650,7 @@ void addRandomData()
     stds.push_back(s05);
     student *s06 = new student("Faisal Khan", "210454684", 64, 8.5, "AUTO", 8.21);
     stds.push_back(s06);
-       student *s07 = new student("Tammana", "210450084", 80, 50, "AUTO", 3.7);
+    student *s07 = new student("Tammana", "210450084", 80, 50, "AUTO", 3.7);
     stds.push_back(s07);
 
     Date *dd = new Date(12, 12, 2021);
@@ -653,9 +669,7 @@ int mainMenu()
     cout << "Welcome to the Placement assistance portal" << endl;
     cout << "1. Student Login" << endl;
     cout << "2. College Admin login" << endl;
-    cout << "3. Print all Student records" << endl;
-    cout << "4. Print all companies records" << endl;
-    cout << "5. Exit Portal" << endl;
+    cout << "3. Exit Portal" << endl;
     int option;
     cin >> option;
     return option;
@@ -675,7 +689,9 @@ int collegeAdminFunction()
 {
     cout << "1. Add Company" << endl;
     cout << "2. Remove Company" << endl;
-    cout << "3.Go back a menu" << endl;
+    cout << "3. Print all Student records" << endl;
+    cout << "4. Print all companies records" << endl;
+    cout << "5. Go back a menu" << endl;
     int Oi;
     cin >> Oi;
     return Oi;
@@ -741,27 +757,22 @@ void get_eligible_comps(string reg_no)
     {
         if (com[i]->cgpa_cutoff <= curr_student->cgpa && com[i]->XIImarks <= curr_student->XIImarks && com[i]->Xmarks <= curr_student->Xmarks)
         {
-            
-            if(find(com[i]->branches_eligible.begin(),com[i]->branches_eligible.end(), curr_student->branch)!=com[i]->branches_eligible.end() ){
+
+            if (find(com[i]->branches_eligible.begin(), com[i]->branches_eligible.end(), curr_student->branch) != com[i]->branches_eligible.end())
+            {
                 count++;
-                cout<< "You are eligible for :" << endl;
+                cout << "You are eligible for :" << endl;
                 printCompany(com[i]->company_id);
-                cout<<endl;
+                cout << endl;
             }
-           
         }
     }
 
-    if(count==0){
-        cout<< "Dear "<< curr_student->name << " , you are not eligible for any currently registered companies!" << endl;
+    if (count == 0)
+    {
+        cout << "Dear " << curr_student->name << " , you are not eligible for any currently registered companies!" << endl;
     }
-
-
 }
-
-
-
-
 
 void existingStudentData()
 {
@@ -773,8 +784,6 @@ void existingStudentData()
 
     get_eligible_comps(reg_no);
 }
-
-
 
 void printStudentData()
 {
@@ -806,6 +815,12 @@ void checkStudentData(string rno)
 int main(int argc, char **argv)
 {
     addRandomData();
+    adminIds.insert("123");
+    adminIds.insert("234");
+    adminIds.insert("345");
+    adminIds.insert("456");
+    adminIds.insert("567");
+    adminIds.insert("678");
 
     // printCompany("CID_1");
 
@@ -831,6 +846,13 @@ int main(int argc, char **argv)
         }
         else if (op == 2)
         {
+            string id;
+            cout << "Please enter your id to get access: " << endl;
+            cin>> id;
+            if(adminIds.find(id)== adminIds.end()){
+                cout << "Please enter a valid admin ID!" << endl;
+                continue;
+            }
             int Oi = collegeAdminFunction();
             if (Oi == 1)
             {
@@ -848,20 +870,24 @@ int main(int argc, char **argv)
                 cin >> cid;
                 removeCompany(cid);
             }
+
+            else if (Oi == 3)
+            {
+                printStudentData();
+                cout << "Currently we have data of " << stds.size() << " students" << endl;
+                continue;
+            }
+            else if (Oi == 4)
+            {
+                printAllCompanies();
+                continue;
+            }
+
             else
                 continue;
         }
+
         else if (op == 3)
-        {
-            printStudentData();
-            cout << "Currently we have data of " << stds.size() << " students" << endl;
-            continue;
-        }
-        else if (op == 4)
-        {
-            printAllCompanies();
-        }
-        else if (op == 5)
         {
             cout << "Thank you for using the portal" << endl;
             break;
@@ -873,8 +899,6 @@ int main(int argc, char **argv)
             continue;
         }
     }
-
-    // printStudentData();
 
     return 0;
 }
