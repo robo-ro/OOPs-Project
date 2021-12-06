@@ -574,6 +574,11 @@ public:
     }
 };
 
+void add_admin(string id){
+    adminIds.insert(id);
+
+}
+
 class student : private user
 {
 private:
@@ -691,7 +696,8 @@ int collegeAdminFunction()
     cout << "2. Remove Company" << endl;
     cout << "3. Print all Student records" << endl;
     cout << "4. Print all companies records" << endl;
-    cout << "5. Go back a menu" << endl;
+    cout << "5. Add new admin id" << endl;
+    cout << "6. Go back a menu" << endl;
     int Oi;
     cin >> Oi;
     return Oi;
@@ -848,8 +854,9 @@ int main(int argc, char **argv)
         {
             string id;
             cout << "Please enter your id to get access: " << endl;
-            cin>> id;
-            if(adminIds.find(id)== adminIds.end()){
+            cin >> id;
+            if (adminIds.find(id) == adminIds.end())
+            {
                 cout << "Please enter a valid admin ID!" << endl;
                 continue;
             }
@@ -880,6 +887,16 @@ int main(int argc, char **argv)
             else if (Oi == 4)
             {
                 printAllCompanies();
+                continue;
+            }
+
+            else if (Oi == 5)
+            {
+                string id;
+                cout << "Please enter the new college admin id to be added :" << endl;
+                cin >> id;
+                add_admin(id);
+                
                 continue;
             }
 
